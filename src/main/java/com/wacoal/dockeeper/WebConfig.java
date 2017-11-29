@@ -15,6 +15,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView;
+import org.springframework.web.servlet.view.jasperreports.JasperReportsViewResolver;
 
 /**
  *
@@ -56,6 +58,19 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/").setViewName("home");
         registry.addViewController("/hello").setViewName("hello");
         registry.addViewController("/login").setViewName("login");
+    }
+    
+    @Bean
+    public JasperReportsViewResolver jasperReportsViewResolver(){
+        JasperReportsViewResolver resolver = new JasperReportsViewResolver();
+        resolver.setPrefix("classpath:/jasperreports/");
+        resolver.setSuffix(".jrxml");
+        
+        resolver.setReportDataKey("datasource");
+        resolver.setViewNames("*rpt_*");
+        resolver.setViewClass(JasperReportsMultiFormatView.class);
+        resolver.setOrder(0);
+        return resolver;        
     }
 
 }

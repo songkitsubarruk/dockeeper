@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="emp_attach" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a2679d0-3f45-4321-b6b1-e37372c3f018">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<style name="item_style" fontSize="14"/>
+	<parameter name="p_type_id" class="java.lang.String">
+		<parameterDescription><![CDATA[Type ID]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select * from dbo.tb_attach
+where type_id =  $P{p_type_id} ]]>
+	</queryString>
+	<field name="attach_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="attach_id"/>
+	</field>
+	<field name="owner_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="owner_id"/>
+	</field>
+	<field name="filename" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="filename"/>
+	</field>
+	<field name="type_id" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="type_id"/>
+	</field>
+	<field name="create_by" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="create_by"/>
+	</field>
+	<field name="create_date" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="create_date"/>
+	</field>
+	<sortField name="create_by"/>
+	<variable name="owner_id1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{owner_id}]]></variableExpression>
+	</variable>
+	<variable name="filename1" class="java.lang.Integer" resetType="Group" resetGroup="create_by_group" calculation="Count">
+		<variableExpression><![CDATA[$F{filename}]]></variableExpression>
+	</variable>
+	<variable name="sum_type" class="java.lang.Integer" resetType="Group" resetGroup="create_by_group" calculation="Sum">
+		<variableExpression><![CDATA[java.lang.Integer.valueOf($F{type_id})]]></variableExpression>
+	</variable>
+	<variable name="Sum type report" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[java.lang.Integer.valueOf($F{type_id})]]></variableExpression>
+	</variable>
+	<group name="create_by_group" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{create_by}]]></groupExpression>
+		<groupHeader>
+			<band height="90">
+				<textField>
+					<reportElement style="item_style" x="0" y="10" width="100" height="30" uuid="13ad4312-8f0a-4f43-b586-c8488f498d81"/>
+					<textFieldExpression><![CDATA[$F{create_by}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="" style="item_style" x="0" y="50" width="100" height="30" uuid="86ab59e9-87c6-4b3a-be4d-f60032ddcfbf">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53722e26-1cb3-480e-bf3e-4a53fa901a44"/>
+					</reportElement>
+					<text><![CDATA[type_id]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="item_style" x="150" y="50" width="100" height="30" uuid="aacacc50-e64e-4f4a-b063-8f6d1bfd6ae4">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53722e26-1cb3-480e-bf3e-4a53fa901a44"/>
+					</reportElement>
+					<text><![CDATA[filename]]></text>
+				</staticText>
+				<staticText>
+					<reportElement key="" style="item_style" x="290" y="50" width="100" height="30" uuid="a8faf81e-9bd3-4b12-ad78-c410d9677ff3">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53722e26-1cb3-480e-bf3e-4a53fa901a44"/>
+					</reportElement>
+					<text><![CDATA[owner_id]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="item_style" x="420" y="50" width="100" height="30" uuid="501ee9cc-e8ba-4616-a402-d3e6f0271464">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b2d059b0-44d2-443a-ac24-6e2cca7bb410"/>
+					</reportElement>
+					<text><![CDATA[create_by]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="67">
+				<textField>
+					<reportElement style="item_style" x="50" y="10" width="100" height="30" uuid="079a2fe7-4d5d-4ea2-a855-9c88be2ca450"/>
+					<textFieldExpression><![CDATA[$V{filename1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="item_style" x="0" y="10" width="50" height="30" uuid="109b63a0-1d33-4faf-8410-49087bc6abbf"/>
+					<text><![CDATA[Count :]]></text>
+				</staticText>
+				<textField>
+					<reportElement style="item_style" x="280" y="10" width="100" height="30" uuid="cfac431e-b213-4a7a-b8ff-0a5b1ba0fd55"/>
+					<textFieldExpression><![CDATA[$V{sum_type}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="item_style" x="210" y="10" width="70" height="30" uuid="f0df0c83-9840-4507-8915-c9230f94e2ef"/>
+					<text><![CDATA[Sum type :]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="54" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="15" width="400" height="35" uuid="00313267-4d50-4677-b292-4cea1296019a"/>
+				<textElement textAlignment="Center" verticalAlignment="Justified">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Employee Attach File Report]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="46" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement key="" style="item_style" x="150" y="17" width="100" height="30" uuid="9b6d51a8-6c62-4043-a7bf-0594cff3b782">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="53722e26-1cb3-480e-bf3e-4a53fa901a44"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{filename}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="item_style" x="290" y="17" width="100" height="30" uuid="61d0c99c-eba3-4f8c-8025-ea243a976ac0"/>
+				<textFieldExpression><![CDATA[$F{owner_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="item_style" x="0" y="17" width="100" height="30" uuid="84153a45-298b-44c0-b3a4-8fe6c1643557"/>
+				<textFieldExpression><![CDATA[$F{type_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="item_style" x="420" y="17" width="100" height="30" uuid="e2f639c0-ce0c-46a0-929a-69078ca31de4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b2d059b0-44d2-443a-ac24-6e2cca7bb410"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{create_by}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField>
+				<reportElement style="item_style" x="280" y="6" width="100" height="30" uuid="86cce8f3-2f6c-4fac-b531-4e5b0962a167"/>
+				<textFieldExpression><![CDATA[$V{Sum type report}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="item_style" x="120" y="6" width="160" height="30" uuid="8a65f401-13ba-4fcb-ae34-475f02aa9e6b"/>
+				<text><![CDATA[Summary Type Report :]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

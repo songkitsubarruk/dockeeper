@@ -10,14 +10,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wacoal.dockeeper.wsdl.EmpClass;
 import com.wacoal.dockeeper.wsdl.GetEmpByFilterResponse;
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import javax.sql.DataSource;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,14 +43,15 @@ public class MainController {
     EmpClient empClient;
 
     @Autowired
-    DataSource datasouce;
+    DataSource datasource;
 
     @RequestMapping(method = RequestMethod.GET, value = "")
-    public ModelAndView index(Model model) {
+    public ModelAndView index(Model model, Principal principal) {
         GetEmpByFilterResponse resp = empClient.getEmpByFilter();
         List<EmpClass> emps = resp.getGetEmpByFilterResult().getEmpClass();
         EmpClass emp = emps.get(0);
         model.addAttribute("emp", emp);
+        System.out.println(principal.getName());
         return new ModelAndView("main");
     }
 
@@ -66,7 +71,7 @@ public class MainController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/some")
     public String getSomeParam(@RequestParam(value = "name", required = false, defaultValue = "World") String name) throws Exception {
-        Connection con = this.datasouce.getConnection();
+        Connection con = this.datasource.getConnection();
         Statement stmt = con.createStatement();
         ResultSet res = stmt.executeQuery("select * from tb_attach");
         while (res.next()) {
@@ -82,4 +87,22 @@ public class MainController {
     public String getSomeParamPost(@RequestBody String name) {
         return "some " + name;
     }
+
+    @GetMapping("/reports/{reportname:.+}")
+    public ModelAndView viewReports(
+            final ModelMap modelMap,
+            ModelAndView view,
+            @PathParam("reportname") String reportname,
+            @RequestParam("format") String format,
+            @RequestParam("p_type_id") String typeId
+    ) {
+
+        modelMap.put("datasource", this.datasource);
+        modelMap.put("format", format);
+        modelMap.put("p_type_id", typeId);
+        view = new ModelAndView(reportname, modelMap);
+
+        return view;
+    }
+
 }
